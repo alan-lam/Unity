@@ -58,3 +58,42 @@ public class State : ScriptableObject
     }
 }
 ```
+
+## Number Wizard UI
+
+### UI Anchors
+Elements keep relative distance to anchor point when screen is resized
+- if element is anchored to top-right corner of screen, then it will stay in the top-right corner when the screen is resized
+- the spacing between the element and the anchor point stays the same when the screen is resized
+
+### Loading Scenes with Button Clicks
+1. Create GameObject called Scene Loader
+2. Add SceneLoader.cs as component
+3. In Unity, File -> Build Settings and drag scenes
+4. Add Scene Loader to Button's On Click() and select LoadNextScene()
+
+```
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+
+public class SceneLoader : MonoBehaviour
+{
+    public void LoadNextScene()
+    {
+        int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+        SceneManager.LoadScene(currentSceneIndex + 1);
+    }
+
+    public void LoadStartScene()
+    {
+        SceneManager.LoadScene(0);
+    }
+    
+    public void QuitGame()
+    {
+        Application.Quit();
+    }
+}
+```
