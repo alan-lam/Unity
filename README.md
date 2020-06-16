@@ -237,3 +237,35 @@ public class Block : MonoBehaviour
 A prefab is a template for creating objects
 
 Create prefab by dragging GameObject into Assets
+
+### Playing Audio On Object Collision
+
+```
+private void OnCollisionEnter2D(Collision2D collision)
+{
+    // to play a sound specified in Unity
+    GetComponent<AudioSource>().Play();
+    
+    // to play a sound to the end (doesn't interrupt if another sound plays while current sound is playing)
+    // GetComponent<AudioSource>().PlayOneShot(audioClip);
+}
+```
+
+### Playing Audio When Object Is Destroyed
+
+```
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Block : MonoBehaviour
+{
+    [SerializeField] AudioClip breakSound;
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        AudioSource.PlayClipAtPoint(breakSound, Camera.main.transform.position);
+        Destroy(gameObject);
+    }
+}
+```
