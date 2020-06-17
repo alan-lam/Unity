@@ -252,6 +252,11 @@ private void OnCollisionEnter2D(Collision2D collision)
 ```
 
 ### Playing Audio When Object Is Destroyed
+The above method works when the ball hits the block
+
+However, when the block is destroyed, it doesn't exist anymore so it doesn't have any components (namely audio)
+
+This method creates a temporary GameObject that plays the sound
 
 ```
 using System.Collections;
@@ -266,6 +271,55 @@ public class Block : MonoBehaviour
     {
         AudioSource.PlayClipAtPoint(breakSound, Camera.main.transform.position);
         Destroy(gameObject);
+    }
+}
+```
+
+### Showing Sprites On Collision
+
+```
+public class Block : MonoBehaviour
+{
+    private void TriggerSparklesVFX()
+    {
+        GameObject sparkles = Instantiate(blockSparklesVFX, transform.position, transform.rotation);
+        Destroy(sparkles, 1f);
+    }
+}
+```
+
+### Changing Sprites On Collision
+
+```
+public class Block : MonoBehaviour
+{
+    [SerializeField] Sprite[] hitSprites;
+    
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (tag == "Breakable")
+        {
+            HandleHit();
+        }
+    }
+    
+    private void HandleHit()
+    {
+        timesHit++;
+        if (timesHit >= maxHits)
+        {
+            DestroyBlock();
+        }
+        else
+        {
+            ShowNextHitSprite();
+        }
+    }
+    
+    private void ShowNextHitSprite()
+    {
+        int spriteIndex = timesHit - 1;
+        GetComponent<SpriteRenderer>().sprite = hitSprites[spriteIndex];
     }
 }
 ```
