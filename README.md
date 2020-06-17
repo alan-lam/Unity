@@ -9,8 +9,6 @@ Use `[SerializeField]` to access Game Object from script (AdventureGame.cs)
 2. Add script (AdventureGame.cs) as component
 
 ```
-using System.Collections;  
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -37,8 +35,6 @@ public class AdventureGame : MonoBehaviour
 5. In Unity, add next states to StartingState's Next States field
 
 ```
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "State")]
@@ -73,8 +69,6 @@ Elements keep relative distance to anchor point when screen is resized
 4. Add Scene Loader to Button's On Click() and select LoadNextScene()
 
 ```
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -121,8 +115,6 @@ Add a Collider 2D component
 3. Create script and add it as a component
 
 ```
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -139,8 +131,6 @@ public class LoseCollider : MonoBehaviour
 Moving the paddle:
 
 ```
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Paddle : MonoBehaviour
@@ -171,8 +161,6 @@ public class Paddle : MonoBehaviour
 Moving the ball when the mouse is clicked:
 
 ```
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Ball : MonoBehaviour
@@ -220,8 +208,6 @@ public class Ball : MonoBehaviour
 ### Destroying Objects
 
 ```
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Block : MonoBehaviour
@@ -259,8 +245,6 @@ However, when the block is destroyed, it doesn't exist anymore so it doesn't hav
 This method creates a temporary GameObject that plays the sound
 
 ```
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Block : MonoBehaviour
