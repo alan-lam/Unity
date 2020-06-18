@@ -62,7 +62,7 @@ Elements keep relative distance to anchor point when screen is resized
 - If element is anchored to top-right corner of screen, then it will stay in the top-right corner when the screen is resized
 - The spacing between the element and the anchor point stays the same when the screen is resized
 
-### Loading Scenes with Button Clicks
+### Loading Scenes With Button Clicks
 1. Create GameObject called Scene Loader
 2. Add SceneLoader.cs as component
 3. In Unity, File -> Build Settings and drag scenes
@@ -128,7 +128,7 @@ public class LoseCollider : MonoBehaviour
 ```
 
 ### Moving Objects With Mouse
-Moving the paddle:
+Moving the Paddle:
 
 ```
 using UnityEngine;
@@ -158,7 +158,7 @@ public class Paddle : MonoBehaviour
 }
 ```
 
-Moving the ball when the mouse is clicked:
+Moving the Ball When the Mouse Is Clicked:
 
 ```
 using UnityEngine;
@@ -215,6 +215,8 @@ public class Block : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         Destroy(gameObject);
+        // to destroy the object hitting the block
+        // Destroy(collision.gameObject);
     }
 }
 ```
@@ -224,7 +226,7 @@ A prefab is a template for creating objects
 
 Create prefab by dragging GameObject into Assets
 
-### Playing Audio On Object Collision
+### Playing Audio on Object Collision
 
 ```
 private void OnCollisionEnter2D(Collision2D collision)
@@ -259,7 +261,7 @@ public class Block : MonoBehaviour
 }
 ```
 
-### Showing Sprites On Collision
+### Showing Sprites on Collision
 
 ```
 public class Block : MonoBehaviour
@@ -272,7 +274,7 @@ public class Block : MonoBehaviour
 }
 ```
 
-### Changing Sprites On Collision
+### Changing Sprites on Collision
 
 ```
 public class Block : MonoBehaviour
@@ -304,6 +306,135 @@ public class Block : MonoBehaviour
     {
         int spriteIndex = timesHit - 1;
         GetComponent<SpriteRenderer>().sprite = hitSprites[spriteIndex];
+    }
+}
+```
+
+## Laser Defender
+
+### Moving Objects With Keyboard
+
+To see input options (e.g. `Input.GetAxis()`, `Input.GetButtonDown()`), Edit -> Project Settings
+
+```
+private void Move()
+{
+    // multiplying by Time.deltaTime makes movement same across all computers (frame-rate independent)
+    var deltaX = Input.GetAxis("Horizontal") * Time.deltaTime * moveSpeed;
+    var deltaY = Input.GetAxis("Vertical") * Time.deltaTime * moveSpeed;
+
+    var newXPos = transform.position.x + deltaX;
+    var newYPos = transform.position.y + deltaY;
+    transform.position = new Vector2(newXPos, newYPos);
+}
+```
+
+Constraining Movement Within Camera:
+
+```
+using System.Collections;
+using UnityEngine;
+
+public class Player : MonoBehaviour
+{
+    [SerializeField] float moveSpeed = 10f;
+
+    float xMin;
+    float xMax;
+    float yMin;
+    float yMax;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        SetUpMoveBoundaries();
+    }
+
+    private void SetUpMoveBoundaries()
+    {
+        Camera gameCamera = Camera.main;
+        xMin = gameCamera.ViewportToWorldPoint(new Vector3(0, 0, 0)).x;
+        xMax = gameCamera.ViewportToWorldPoint(new Vector3(1, 0, 0)).x;
+        yMin = gameCamera.ViewportToWorldPoint(new Vector3(0, 0, 0)).y;
+        yMax = gameCamera.ViewportToWorldPoint(new Vector3(0, 1, 0)).y;
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        Move();
+    }
+
+    private void Move()
+    {
+        // multiplying by Time.deltaTime makes movement same across all computers (frame-rate independent)
+        var deltaX = Input.GetAxis("Horizontal") * Time.deltaTime * moveSpeed;
+        var deltaY = Input.GetAxis("Vertical") * Time.deltaTime * moveSpeed;
+
+        var newXPos = Mathf.Clamp(transform.position.x + deltaX, xMin, xMax);
+        var newYPos = Mathf.Clamp(transform.position.y + deltaY, yMin, yMax);
+        transform.position = new Vector2(newXPos, newYPos);
+    }
+}
+```
+
+### Shooting Laser Beams
+
+```
+private void Fire()
+{
+    if (Input.GetButtonDown("Fire1"))
+    {
+        GameObject laser = Instantiate(laserPrefab, transform.position, Quaternion.identity) as GameObject;
+        laser.GetComponent<Rigidbody2D>().velocity = new Vector2(0, projectileSpeed);
+    }
+}
+```
+
+### Coroutines
+Methods that can pause execution and continue at a later time
+
+```
+IEnumerator NameOfCoroutine()
+{
+    // code before pausing
+    yield return new WaitForSeconds(3); // pause for 3 seconds
+    // code after pausing
+}
+
+// to call the coroutine
+StartCoroutine(NameOfCoroutine());
+```
+
+### Shooting Lasers Continuously
+
+```
+public class Player : MonoBehaviour
+{
+    [SerializeField] float projectileFiringPeriod = 0.1f;
+
+    Coroutine firingCoroutine;
+    
+    private void Fire()
+    {
+        if (Input.GetButtonDown("Fire1"))
+        {
+            firingCoroutine = StartCoroutine(FireContinuously());
+        }
+        if (Input.GetButtonUp("Fire1"))
+        {
+            StopCoroutine(firingCoroutine);
+        }
+    }
+    
+    IEnumerator FireContinuously()
+    {
+        while (true)
+        {
+            GameObject laser = Instantiate(laserPrefab, transform.position, Quaternion.identity) as GameObject;
+            laser.GetComponent<Rigidbody2D>().velocity = new Vector2(0, projectileSpeed);
+            yield return new WaitForSeconds(projectileFiringPeriod);
+        }
     }
 }
 ```
