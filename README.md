@@ -27,6 +27,8 @@ public class AdventureGame : MonoBehaviour
 ### Scriptable Objects
 `[CreateAssetMenu(menuName = "State")]` allows us to create a ScriptableObject in Unity (right click in Assets area -> Create -> State)
 
+Change the class so that it inherits from `ScriptableObject` instead of `MonoBehaviour`
+
 ### Managing States
 1. Create ScriptableObject called StartingState
 2. In AdventureGame.cs, add `[SerializeField] State startingState;`
@@ -434,6 +436,50 @@ public class Player : MonoBehaviour
             GameObject laser = Instantiate(laserPrefab, transform.position, Quaternion.identity) as GameObject;
             laser.GetComponent<Rigidbody2D>().velocity = new Vector2(0, projectileSpeed);
             yield return new WaitForSeconds(projectileFiringPeriod);
+        }
+    }
+}
+```
+
+### Moving Objects Along a Path
+Create GameObjects and use them to make a path
+
+```
+using UnityEngine;
+
+public class EnemyPathing : MonoBehaviour
+{
+    [SerializeField] List<Transform> waypoints;
+    [SerializeField] float moveSpeed = 2f;
+    int waypointIndex = 0;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        transform.position = waypoints[waypointIndex].transform.position;
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        Move();
+    }
+
+    private void Move()
+    {
+        if (waypointIndex <= waypoints.Count - 1)
+        {
+            var targetPosition = waypoints[waypointIndex].transform.position;
+            var movementThisFrame = moveSpeed * Time.deltaTime;
+            transform.position = Vector2.MoveTowards(transform.position, targetPosition, movementThisFrame);
+            if (transform.position == targetPosition)
+            {
+                waypointIndex++;
+            }
+        }
+        else
+        {
+            Destroy(gameObject);
         }
     }
 }
