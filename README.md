@@ -314,6 +314,18 @@ public class Block : MonoBehaviour
 
 ## Laser Defender
 
+Setup:
+- Enemy Spawner GameObject has an Enemy Spawner (script) component
+    - It has an array of WaveConfigs
+- WaveConfigs have information about what type of Enemy spawns and what path they take (waypoints)
+- Enemy GameObjects have an Enemy Pathing (script) component
+    - Enemy Pathing has information about the current WaveConfig
+    - Responsible for moving 1 Enemy GameObject
+
+Execution:
+- Enemy Spawner instantiates Enemy GameObjects and attaches the current WaveConfig to it's Enemy Pathing component
+- Enemy Pathing uses the info from the WaveConfig and moves the Enemy GameObject
+
 ### Moving Objects With Keyboard
 
 To see input options (e.g. `Input.GetAxis()`, `Input.GetButtonDown()`), Edit -> Project Settings
