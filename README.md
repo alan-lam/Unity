@@ -496,3 +496,8 @@ public class EnemyPathing : MonoBehaviour
     }
 }
 ```
+
+### Layer Collision Matrix
+Edit -> Project Settings -> Physics2D
+
+Determines what layers can collide with which layers
