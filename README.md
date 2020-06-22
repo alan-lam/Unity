@@ -94,6 +94,10 @@ public class SceneLoader : MonoBehaviour
 }
 ```
 
+### Creating Fonts
+1. Download from [dafont.com](https://dafont.com)
+2. Window -> TextMeshPro -> Font Asset Creator
+
 ## Block Breaker
 
 ### Making Objects Move
