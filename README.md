@@ -505,3 +505,33 @@ public class EnemyPathing : MonoBehaviour
 Edit -> Project Settings -> Physics2D
 
 Determines what layers can collide with which layers
+
+### Create Scrolling Background
+1. Change Sprite Texture Type to Default and Wrap Mode to Repeat
+2. Create Quad (3D Object)
+3. Drag background Sprite onto Quad
+4. Change Quad's Shader to Unlit/Texture
+
+```
+using UnityEngine;
+
+public class BackgroundScroller : MonoBehaviour
+{
+    [SerializeField] float backgroundScrollSpeed = 0.2f;
+    Material myMaterial;
+    Vector2 offSet;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        myMaterial = GetComponent<Renderer>().material;
+        offSet = new Vector2(0f, backgroundScrollSpeed);
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        myMaterial.mainTextureOffset += offSet * Time.deltaTime;
+    }
+}
+```
