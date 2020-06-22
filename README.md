@@ -535,3 +535,37 @@ public class BackgroundScroller : MonoBehaviour
     }
 }
 ```
+
+### Creating Particle Effects
+1. Create Material
+2. Change Albedo to Sprite
+3. Change Shader to Mobile/Particles/Alpha Blended
+4. Create Particle System (Right click in Hierarchy -> Effects -> Particle System)
+5. Change Material under Renderer
+
+### Singleton
+
+```
+using UnityEngine;
+
+public class MusicPlayer : MonoBehaviour
+{
+    // Start is called before the first frame update
+    void Awake()
+    {
+        SetUpSingleton();
+    }
+
+    private void SetUpSingleton()
+    {
+        if (FindObjectsOfType(GetType()).Length > 1)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            DontDestroyOnLoad(gameObject);
+        }
+    }
+}
+```
