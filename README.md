@@ -585,3 +585,20 @@ public class MusicPlayer : MonoBehaviour
 5. Drag Animation into Animation Controller (in Animator window)
     - Transition to another animation by right-clicking on transition and Make Transition
 6. Assign GameObject's Animator Controller
+
+### Move Objects Using transform.Translate
+
+```
+using UnityEngine;
+
+public class Attacker : MonoBehaviour
+{
+    [Range(0f,5f)] [SerializeField] float walkSpeed = 1f;
+
+    // Update is called once per frame
+    void Update()
+    {
+        transform.Translate(Vector2.left * Time.deltaTime * walkSpeed);
+    }
+}
+```
