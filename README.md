@@ -576,11 +576,12 @@ public class MusicPlayer : MonoBehaviour
 1. Change Sprite Mode to Multiple and click Apply
 2. Go to Sprite Editor and click Slice
 
-### Animation
+### Setting Up Animator Controller
 1. Add Animator Component to GameObject
 2. Create Animator Controller (Right click -> Create -> Animator Controller)
 3. Select all frames (from sliced up spritesheet) and create Animation (Right click -> Create -> Animation)
 4. Change speed of animation by changing number of samples (in Animation window)
     - Make it loop by checking Loop Time in Inspector
 5. Drag Animation into Animation Controller (in Animator window)
+    - Transition to another animation by right-clicking on transition and Make Transition
 6. Assign GameObject's Animator Controller
