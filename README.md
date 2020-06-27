@@ -646,3 +646,6 @@ Have a Body GameObject as a Child of the main Parent GameObject
 Put the Animator Controller on the Parent
 
 Put the Sprite Renderer on the Body
+
+Animators can only access methods that are on the same level
+    - An Animator on the Parent can only access methods from the script on the Parent
