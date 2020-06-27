@@ -586,6 +586,12 @@ public class MusicPlayer : MonoBehaviour
     - Transition to another animation by right-clicking on transition and Make Transition
 6. Assign GameObject's Animator Controller
 
+1. Click on GameObject to animate
+2. In Animation window, click Create
+3. Click Add Property
+4. Sprite Renderer -> Sprite
+5. Drag all frames into Dopesheet
+
 ### Move Objects Using transform.Translate
 
 ```
@@ -633,3 +639,10 @@ public class DefenderSpawner : MonoBehaviour
     }
 }
 ```
+
+### Animation Parent-Child Setup
+Have a Body GameObject as a Child of the main Parent GameObject
+
+Put the Animator Controller on the Parent
+
+Put the Sprite Renderer on the Body
