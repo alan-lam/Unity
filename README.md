@@ -666,3 +666,87 @@ childObject.transform.parent = transform;
 GetComponent<Animator>().SetBool("NameOfParameter", true);
 GetComponent<Animator>().SetTrigger("NameOfParameter");
 ```
+
+### Updating Slider
+
+```
+GetComponent<Slider>().value = Time.timeSinceLevelLoad / levelTime;
+```
+
+### Tracking How Many Enemies Are Left
+
+```
+private void Awake()
+{
+    FindObjectOfType<LevelController>().AttackerSpawned();
+}
+
+private void OnDestroy()
+{
+    FindObjectOfType<LevelController>().AttackerKilled();
+}
+```
+
+### Setting Volume
+
+```
+public class PlayerPrefsController : MonoBehaviour
+{
+    const string MASTER_VOLUME_KEY = "master volume";
+
+    const float MIN_VOLUME = 0f;
+    const float MAX_VOLUME = 1f;
+
+    public static void SetMasterVolume(float volume)
+    {
+        if (volume >= MIN_VOLUME && volume <= MAX_VOLUME)
+        {
+            PlayerPrefs.SetFloat(MASTER_VOLUME_KEY, volume);
+        }
+    }
+
+    public static float GetMasterVolume()
+    {
+        return PlayerPrefs.GetFloat(MASTER_VOLUME_KEY);
+    }
+}
+```
+
+```
+public class OptionsController : MonoBehaviour
+{
+    [SerializeField] Slider volumeSlider;
+    [SerializeField] float defaultVolume = 0.8f;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        volumeSlider.value = PlayerPrefsController.GetMasterVolume();
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        var musicPlayer = FindObjectOfType<MusicPlayer>();
+        if (musicPlayer)
+        {
+            musicPlayer.SetVolume(volumeSlider.value);
+        }
+        else
+        {
+            UnityEngine.Debug.LogWarning("No music player found... did you start from splash screen?");
+        }
+    }
+
+    public void SaveAndExit()
+    {
+        PlayerPrefsController.SetMasterVolume(volumeSlider.value);
+        FindObjectOfType<LevelLoader>().LoadMainMenu();
+    }
+
+    public void SetDefaults()
+    {
+        volumeSlider.value = defaultVolume;
+    }
+}
+```
