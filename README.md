@@ -659,9 +659,10 @@ childObject.transform.parent = transform;
 
 ### Changing Animation State
 1. Add a Parameter in the Animator window
-2. Click on transition line and add a Condition
+2. Click on transition line and add a Condition in the Inspector
 3. Has Exit Time will play the entire animation until the end and then transition
 
 ```
-animator.SetBool("NameOfParameter", true);
+GetComponent<Animator>().SetBool("NameOfParameter", true);
+GetComponent<Animator>().SetTrigger("NameOfParameter");
 ```
