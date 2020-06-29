@@ -656,3 +656,12 @@ Animators can only access methods that are on the same level
 ```
 childObject.transform.parent = transform;
 ```
+
+### Changing Animation State
+1. Add a Parameter in the Animator window
+2. Click on transition line and add a Condition
+3. Has Exit Time will play the entire animation until the end and then transition
+
+```
+animator.SetBool("NameOfParameter", true);
+```
