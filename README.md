@@ -761,6 +761,19 @@ public class OptionsController : MonoBehaviour
         - Change Body Type to Static
 3. Check Used By Composite in Tilemap Collider 2D
     - Groups adjacent tiles together instead of adding a collider to each individual tile
+    
+### Moving
+
+```
+private void Run()
+{
+    float controlThrow = Input.GetAxis("Horizontal");
+    Vector2 playerVelocity = new Vector2(controlThrow * runSpeed, myRigidBody.velocity.y);
+    myRigidBody.velocity = playerVelocity;
+    bool playerHasHorizontalSpeed = Mathf.Abs(myRigidBody.velocity.x) > Mathf.Epsilon;
+    myAnimator.SetBool("Running", playerHasHorizontalSpeed);
+}
+```
 
 ### Flipping Sprite When Moving
 
