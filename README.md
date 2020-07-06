@@ -750,3 +750,67 @@ public class OptionsController : MonoBehaviour
     }
 }
 ```
+
+## TileVania
+
+### Adding Colliders to Tilemaps
+
+1. Add Tilemap Collider 2D
+2. Add Composite Collider 2D
+    - Automatically adds Rigidbody 2D
+        - Change Body Type to Static
+3. Check Used By Composite in Tilemap Collider 2D
+    - Groups adjacent tiles together instead of adding a collider to each individual tile
+
+### Flipping Sprite When Moving
+
+```
+private void FlipSprite()
+{
+    bool playerHasHorizontalSpeed = Mathf.Abs(myRigidBody.velocity.x) > Mathf.Epsilon;
+    if (playerHasHorizontalSpeed)
+    {
+        transform.localScale = new Vector2(Mathf.Sign(myRigidBody.velocity.x), 1f);
+    }
+}
+```
+
+### Jumping
+
+```
+private void Jump()
+{
+    // prevent jumping in mid-air (only jump if touching ground)
+    if (!myCollider2D.IsTouchingLayers(LayerMask.GetMask("Ground")))
+    {
+        return;
+    }
+    if (Input.GetButtonDown("Jump"))
+    {
+        Vector2 jumpVelocityToAdd = new Vector2(0f, jumpSpeed);
+        myRigidBody.velocity += jumpVelocityToAdd;
+    }
+}
+```
+
+### Climbing
+
+```
+private void ClimbLadder()
+{
+    if (!myCollider2D.IsTouchingLayers(LayerMask.GetMask("Climbing")))
+    {
+        myAnimator.SetBool("Climbing", false);
+        myRigidBody.gravityScale = gravityScaleAtStart;
+        return;
+    }
+
+    float controlThrow = Input.GetAxis("Vertical");
+    Vector2 climbVelocity = new Vector2(myRigidBody.velocity.x, controlThrow * climbSpeed);
+    myRigidBody.velocity = climbVelocity;
+    myRigidBody.gravityScale = 0f;
+
+    bool playerHasVerticalSpeed = Mathf.Abs(myRigidBody.velocity.y) > Mathf.Epsilon;
+    myAnimator.SetBool("Climbing", playerHasVerticalSpeed);
+}
+```
