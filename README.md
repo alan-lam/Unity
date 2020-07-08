@@ -827,3 +827,8 @@ private void ClimbLadder()
     myAnimator.SetBool("Climbing", playerHasVerticalSpeed);
 }
 ```
+
+### Cinemachine Camera - Constrain Camera Within Boundary
+1. Add Cinemachine Confiner extension
+2. Add Polygon Collider 2D to Tilemap (background)
+3. Add Tilemap to Cinemachine Confiner's Bounding Shape 2D
