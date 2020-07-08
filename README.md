@@ -809,6 +809,15 @@ private void Jump()
 ### Climbing
 
 ```
+void Start()
+{
+    myRigidBody = GetComponent<Rigidbody2D>();
+    myCollider2D = GetComponent<Collider2D>();
+    gravityScaleAtStart = myRigidBody.gravityScale;
+}
+```
+
+```
 private void ClimbLadder()
 {
     if (!myCollider2D.IsTouchingLayers(LayerMask.GetMask("Climbing")))
