@@ -776,6 +776,7 @@ private void Run()
 ```
 
 ### Flipping Sprite When Moving
+For Player:
 
 ```
 private void FlipSprite()
@@ -785,6 +786,17 @@ private void FlipSprite()
     {
         transform.localScale = new Vector2(Mathf.Sign(myRigidBody.velocity.x), 1f);
     }
+}
+```
+
+For Enemy:
+
+Add Collider to enemy to check if there is ground below or wall in front
+
+```
+private void OnTriggerExit2D(Collider2D collision)
+{
+    transform.localScale = new Vector2(-(Mathf.Sign(myRigidbody.velocity.x)), 1f);
 }
 ```
 
@@ -841,3 +853,8 @@ private void ClimbLadder()
 1. Add Cinemachine Confiner extension
 2. Add Polygon Collider 2D to Tilemap (background)
 3. Add Tilemap to Cinemachine Confiner's Bounding Shape 2D
+
+### Prevent Player From Sticking to Walls
+1. Create a Physics Material 2D
+2. Set Friction to 0
+3. Add Material to Player's Collider
